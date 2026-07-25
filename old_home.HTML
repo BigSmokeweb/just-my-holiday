@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="JustMyHoliday Villa Social – Escape the City. Meet New People. Make Unforgettable Memories. Book your exclusive private villa party experience today.">
+    <meta property="og:title" content="JustMyHoliday Villa Social – Private Villa Party Experience">
+    <meta property="og:description"
+        content="A one-day private villa experience where great music, fun games, delicious food, and amazing people come together for an unforgettable day.">
+    <title>JustMyHoliday Villa Social | Private Villa Experience</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@200;300;400;500;600;700;800&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --gold: #D4A843;
+            --gold-light: #F0C96A;
+            --gold-dark: #A07828;
+            --rose: #E8637A;
+            --rose-light: #F08DA0;
+            --teal: #2ECFA8;
+            --teal-dark: #1A9E80;
+            --deep: #08080F;
+            --surface: #0F0F1C;
+            --card: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.09);
+            --muted: rgba(255, 255, 255, 0.5);
+            --text: rgba(255, 255, 255, 0.88);
+            --radius-lg: 18px;
+            --radius-xl: 28px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--deep);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-dark);
+            border-radius: 4px;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* NAV */
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 300;
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(8, 8, 15, 0.6);
+            backdrop-filter: blur(20px) saturate(1.4);
+            border-bottom: 1px solid rgba(212, 168, 67, 0.12);
+            transition: padding 0.4s, background 0.4s;
+        }
+
+        #nav.compact {
+            padding: 12px 40px;
+        }
+
+        .nav-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 22px;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            border: none;
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #0a0a15;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(212, 168, 67, 0.4);
+        }
+
+        /* SCROLL PROGRESS */
+        #scroll-prog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold), var(--rose), var(--teal));
+            z-index: 500;
+            transition: width 0.1s linear;
+        }
+
+        /* HERO */
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 24px 60px;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(80px);
+        }
+
+        .hero-glow-1 {
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(212, 168, 67, 0.18) 0%, transparent 70%);
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .hero-glow-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(232, 99, 122, 0.13) 0%, transparent 70%);
+            bottom: 0;
+            right: -100px;
+        }
+
+        .hero-glow-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(46, 207, 168, 0.10) 0%, transparent 70%);
+            bottom: -100px;
+            left: -80px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            border: 1px solid rgba(212, 168, 67, 0.4);
+            border-radius: 100px;
+            background: rgba(212, 168, 67, 0.08);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 28px;
+            animation: fadeSlideDown 0.8s ease both;
+        }
+
+        .hero-badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.75);
+            }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(2.8rem, 8vw, 6.5rem);
+            line-height: 1.0;
+            letter-spacing: -0.02em;
+            background: linear-gradient(160deg, #fff 0%, var(--gold-light) 45%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            animation: fadeSlideDown 0.9s 0.1s ease both;
+        }
+
+        .hero-title-sub {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            color: rgba(240, 201, 106, 0.7);
+            margin-bottom: 32px;
+            animation: fadeSlideDown 0.9s 0.2s ease both;
+        }
+
+        .hero-tagline {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--muted);
+            max-width: 52ch;
+            line-height: 1.7;
+            margin-bottom: 48px;
+            animation: fadeSlideDown 0.9s 0.3s ease both;
+        }
+
+        .hero-tagline strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeSlideDown 0.9s 0.4s ease both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+            border: none;
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #08080F;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 48px rgba(212, 168, 67, 0.45);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 34px;
+            border: 1px solid rgba(212, 168, 67, 0.35);
+            border-radius: 100px;
+            background: rgba(212, 168, 67, 0.06);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            color: var(--gold);
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, border-color 0.3s, background 0.3s;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            border-color: rgba(212, 168, 67, 0.65);
+            background: rgba(212, 168, 67, 0.12);
+        }
+
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* COUNTDOWN */
+        #countdown-section {
+            position: relative;
+            z-index: 10;
+            padding: 30px 24px 60px;
+        }
+
+        .countdown-label {
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .countdown-wrap {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 20px 28px;
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(12px);
+            min-width: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .countdown-num {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .countdown-label-unit {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* SECTIONS */
+        .section {
+            position: relative;
+            z-index: 10;
+            padding: 80px 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-eyebrow {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            line-height: 1.15;
+            margin-bottom: 18px;
+            background: linear-gradient(135deg, #fff 60%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-desc {
+            color: var(--muted);
+            font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+            max-width: 56ch;
+            line-height: 1.75;
+            margin-bottom: 48px;
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 168, 67, 0.25), transparent);
+            margin: 0;
+        }
+
+        /* INCLUDES GRID */
+        .includes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .include-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .include-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.05) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .include-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 168, 67, 0.35);
+            box-shadow: 0 12px 40px rgba(212, 168, 67, 0.12);
+        }
+
+        .include-card:hover::before {
+            opacity: 1;
+        }
+
+        .include-icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .include-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        /* SCHEDULE */
+        .schedule-wrap {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .schedule-line {
+            position: absolute;
+            left: 14px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(180deg, var(--gold-dark), var(--rose), var(--teal-dark));
+            border-radius: 2px;
+        }
+
+        .schedule-item {
+            position: relative;
+            margin-bottom: 32px;
+            cursor: pointer;
+        }
+
+        .schedule-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .schedule-dot {
+            position: absolute;
+            left: -32px;
+            top: 14px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--gold-dark);
+            border: 2px solid var(--gold);
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            z-index: 2;
+        }
+
+        .schedule-item:hover .schedule-dot,
+        .schedule-item.active .schedule-dot {
+            transform: scale(1.4);
+            box-shadow: 0 0 14px var(--gold);
+            background: var(--gold);
+        }
+
+        .schedule-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s, background 0.3s, transform 0.3s;
+        }
+
+        .schedule-item:hover .schedule-card,
+        .schedule-item.active .schedule-card {
+            border-color: rgba(212, 168, 67, 0.4);
+            background: rgba(212, 168, 67, 0.06);
+            transform: translateX(4px);
+        }
+
+        .schedule-time {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .schedule-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 0;
+        }
+
+        .schedule-desc {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.65;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), margin-top 0.3s, opacity 0.3s;
+            opacity: 0;
+            margin-top: 0;
+        }
+
+        .schedule-item.active .schedule-desc,
+        .schedule-item:hover .schedule-desc {
+            max-height: 120px;
+            opacity: 1;
+            margin-top: 8px;
+        }
+
+        /* FEATURES */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 28px 22px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(46, 207, 168, 0.35);
+            box-shadow: 0 16px 48px rgba(46, 207, 168, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .feature-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.45;
+        }
+
+        /* TWO COL */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        @media (max-width: 700px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-box {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 32px 28px;
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        .info-box.gold-top::before {
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+        }
+
+        .info-box.rose-top::before {
+            background: linear-gradient(90deg, var(--rose), var(--rose-light));
+        }
+
+        .info-box-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .gold-top .info-box-title {
+            color: var(--gold);
+        }
+
+        .rose-top .info-box-title {
+            color: var(--rose-light);
+        }
+
+        .notes-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notes-list li {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.65;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .notes-list li:last-child {
+            border-bottom: none;
+        }
+
+        .notes-list li::before {
+            content: '›';
+            color: var(--gold);
+            font-size: 1.1rem;
+            line-height: 1.2;
+            flex-shrink: 0;
+        }
+
+        .refund-highlight {
+            background: rgba(46, 207, 168, 0.07);
+            border: 1px solid rgba(46, 207, 168, 0.2);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            font-size: 0.88rem;
+            color: var(--text);
+            line-height: 1.65;
+        }
+
+        .refund-highlight strong {
+            color: var(--teal);
+        }
+
+        /* CTA */
+        #cta-section {
+            position: relative;
+            z-index: 10;
+            padding: 80px 24px 100px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .cta-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 100%, rgba(212, 168, 67, 0.14) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .cta-inner {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            background: rgba(232, 99, 122, 0.12);
+            border: 1px solid rgba(232, 99, 122, 0.35);
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--rose-light);
+            margin-bottom: 24px;
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 50%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-sub {
+            color: var(--muted);
+            font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+            max-width: 44ch;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .cta-warning {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            background: rgba(232, 99, 122, 0.08);
+            border: 1px solid rgba(232, 99, 122, 0.25);
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--rose-light);
+            margin-top: 28px;
+        }
+
+        /* CONFETTI */
+        .confetti-piece {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(720deg) scale(0.4);
+                opacity: 0;
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .footer-copy {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        /* NOISE */
+        #noise {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.022;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 180px 180px;
+        }
+
+        @media (max-width: 600px) {
+            #nav {
+                padding: 14px 20px;
+            }
+
+            #nav.compact {
+                padding: 10px 20px;
+            }
+
+            .nav-cta {
+                padding: 8px 16px;
+                font-size: 0.72rem;
+            }
+
+            .hero-actions {
+                gap: 12px;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                padding: 14px 26px;
+                font-size: 0.85rem;
+            }
+
+            .schedule-wrap {
+                padding-left: 30px;
+            }
+
+            .schedule-dot {
+                left: -24px;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .countdown-card {
+                padding: 16px 18px;
+                min-width: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="noise"></div>
+    <canvas id="particle-canvas"></canvas>
+    <div id="scroll-prog"></div>
+
+    <nav id="nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-brand">JustMyHoliday</div>
+        <a href="#cta-section" class="nav-cta" id="nav-book-btn" aria-label="Book your spot">&#10022; Book My Spot</a>
+    </nav>
+
+    <section id="hero" aria-labelledby="hero-title">
+        <div class="hero-glow hero-glow-1"></div>
+        <div class="hero-glow hero-glow-2"></div>
+        <div class="hero-glow hero-glow-3"></div>
+
+        <div class="hero-badge">
+            <div class="hero-badge-dot"></div>
+            Private Villa Experience
+        </div>
+
+        <h1 class="hero-title" id="hero-title">JustMyHoliday<br>Villa Social</h1>
+        <p class="hero-title-sub">One Epic Day. Endless Memories.</p>
+
+        <p class="hero-tagline">
+            Escape the City. Meet New People. Make Unforgettable Memories.<br>
+            <strong>Great music &middot; Fun games &middot; Delicious food &middot; Amazing people</strong>
+        </p>
+
+        <div class="hero-actions">
+            <a href="#cta-section" class="btn-primary" id="hero-book-btn" aria-label="Book your spot now">&#10022; Book
+                Your
+                Spot</a>
+            <a href="#schedule-section" class="btn-secondary" aria-label="View event schedule">View Schedule &darr;</a>
+        </div>
+    </section>
+
+    <div id="countdown-section" aria-label="Event countdown">
+        <p class="countdown-label">Event begins in</p>
+        <div class="countdown-wrap">
+            <div class="countdown-card">
+                <div class="countdown-num" id="cd-days">--</div>
+                <div class="countdown-label-unit">Days</div>
+            </div>
+            <div class="countdown-card">
+                <div class="countdown-num" id="cd-hours">--</div>
+                <div class="countdown-label-unit">Hours</div>
+            </div>
+            <div class="countdown-card">
+                <div class="countdown-num" id="cd-mins">--</div>
+                <div class="countdown-label-unit">Mins</div>
+            </div>
+            <div class="countdown-card">
+                <div class="countdown-num" id="cd-secs">--</div>
+                <div class="countdown-label-unit">Secs</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <section class="section" id="includes-section" aria-labelledby="includes-title">
+        <div class="reveal">
+            <p class="section-eyebrow">All-Inclusive Experience</p>
+            <h2 class="section-title" id="includes-title">Everything&rsquo;s Waiting<br>for You</h2>
+            <p class="section-desc">One ticket. One epic day. Everything you need for the ultimate villa social is
+                already
+                taken care of.</p>
+        </div>
+
+        <div class="includes-grid">
+            <div class="include-card reveal reveal-delay-1">
+                <span class="include-icon">&#127969;</span>
+                <div class="include-name">Premium Private Villa</div>
+            </div>
+            <div class="include-card reveal reveal-delay-2">
+                <span class="include-icon">&#127919;</span>
+                <div class="include-name">Interactive Social Games &amp; Group Activities</div>
+            </div>
+            <div class="include-card reveal reveal-delay-3">
+                <span class="include-icon">&#127911;</span>
+                <div class="include-name">Live DJ &amp; Dance Floor Experience</div>
+            </div>
+            <div class="include-card reveal reveal-delay-1">
+                <span class="include-icon">&#127869;&#65039;</span>
+                <div class="include-name">Delicious Snacks &amp; Dinner Buffet</div>
+            </div>
+            <div class="include-card reveal reveal-delay-2">
+                <span class="include-icon">&#128293;</span>
+                <div class="include-name">BBQ Night Under the Stars</div>
+            </div>
+            <div class="include-card reveal reveal-delay-3">
+                <span class="include-icon">&#128247;</span>
+                <div class="include-name">Professional Photography Opportunities</div>
+            </div>
+            <div class="include-card reveal reveal-delay-1">
+                <span class="include-icon">&#127942;</span>
+                <div class="include-name">Fun Competitions &amp; Exciting Prizes</div>
+            </div>
+            <div class="include-card reveal reveal-delay-2">
+                <span class="include-icon">&#128737;&#65039;</span>
+                <div class="include-name">Safe, Well-Managed Event Environment</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="section" id="schedule-section" aria-labelledby="schedule-title">
+        <div class="reveal">
+            <p class="section-eyebrow">Event Timeline</p>
+            <h2 class="section-title" id="schedule-title">From Arrival to<br>Late Night BBQ</h2>
+            <p class="section-desc">Tap any event to explore what&rsquo;s happening. The whole day is designed to keep
+                you
+                engaged, connected, and entertained.</p>
+        </div>
+
+        <div class="schedule-wrap reveal">
+            <div class="schedule-line"></div>
+
+            <div class="schedule-item" id="sch-1" tabindex="0" role="button" aria-expanded="false">
+                <div class="schedule-dot"></div>
+                <div class="schedule-card">
+                    <div class="schedule-time">&#127969; <span>1:00 PM</span></div>
+                    <div class="schedule-name">Guest Check-In</div>
+                    <div class="schedule-desc">Arrive at the villa, complete your check-in, receive your event
+                        wristband, explore
+                        the venue, and settle into the experience.</div>
+                </div>
+            </div>
+
+            <div class="schedule-item" id="sch-2" tabindex="0" role="button" aria-expanded="false">
+                <div class="schedule-dot"></div>
+                <div class="schedule-card">
+                    <div class="schedule-time">&#127881; <span>2:00 PM</span></div>
+                    <div class="schedule-name">Grand Opening</div>
+                    <div class="schedule-desc">The event officially begins with music, entertainment, introductions, and
+                        exciting
+                        opening activities to set the mood for the day.</div>
+                </div>
+            </div>
+
+            <div class="schedule-item" id="sch-3" tabindex="0" role="button" aria-expanded="false">
+                <div class="schedule-dot"></div>
+                <div class="schedule-card">
+                    <div class="schedule-time">&#127919; <span>3:00 PM &ndash; 6:30 PM</span></div>
+                    <div class="schedule-name">Games &amp; Social Activities</div>
+                    <div class="schedule-desc">Break the ice through interactive games, team challenges, and engaging
+                        activities
+                        designed to help everyone connect while competing for exciting prizes.</div>
+                </div>
+            </div>
+
+            <div class="schedule-item" id="sch-4" tabindex="0" role="button" aria-expanded="false">
+                <div class="schedule-dot"></div>
+                <div class="schedule-card">
+                    <div class="schedule-time">&#127839; <span>5:00 PM &ndash; 6:00 PM</span></div>
+                    <div class="schedule-name">Snacks &amp; Refreshments</div>
+                    <div class="schedule-desc">Take a break and enjoy a selection of delicious snacks and refreshing
+                        beverages
+                        while mingling with new friends.</div>
+                </div>
+            </div>
+
+            <div class="schedule-item" id="sch-5" tabindex="0" role="button" aria-expanded="false">
+                <div class="schedule-dot"></div>
+                <div class="schedule-card">
+                    <div class="schedule-time">&#127749; <span>6:30 PM</span></div>
+                    <div class="schedule-name">Sunset Social</div>
+                    <div class="schedule-desc">Relax with good music, capture beautiful sunset moments, meet new people,
+                        and enjoy
+                        the villa atmosphere before the party begins.</div>
+                </div>
+            </div>
+
+            <div class="schedule-item" id="sch-6" tabindex="0" role="button" aria-expanded="false">
+                <div class="schedule-dot"></div>
+                <div class="schedule-card">
+                    <div class="schedule-time">&#127911; <span>7:30 PM &ndash; 10:30 PM</span></div>
+                    <div class="schedule-name">DJ Villa Party</div>
+                    <div class="schedule-desc">Dance the night away with energetic music, immersive lighting, and an
+                        unforgettable
+                        party experience on the dance floor.</div>
+                </div>
+            </div>
+
+            <div class="schedule-item" id="sch-7" tabindex="0" role="button" aria-expanded="false">
+                <div class="schedule-dot"></div>
+                <div class="schedule-card">
+                    <div class="schedule-time">&#127869;&#65039; <span>9:00 PM &ndash; 10:30 PM</span></div>
+                    <div class="schedule-name">Dinner Buffet</div>
+                    <div class="schedule-desc">Enjoy a freshly prepared buffet featuring a variety of delicious dishes
+                        served
+                        throughout the evening while the party continues.</div>
+                </div>
+            </div>
+
+            <div class="schedule-item" id="sch-8" tabindex="0" role="button" aria-expanded="false">
+                <div class="schedule-dot"></div>
+                <div class="schedule-card">
+                    <div class="schedule-time">&#128293; <span>11:00 PM &ndash; 12:30 AM</span></div>
+                    <div class="schedule-name">BBQ &amp; Chill</div>
+                    <div class="schedule-desc">End the night with freshly grilled BBQ, music, conversations, laughter,
+                        and relaxed
+                        late-night vibes under the stars.</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="section" id="why-section" aria-labelledby="why-title">
+        <div class="reveal" style="text-align:center; margin-bottom: 48px;">
+            <p class="section-eyebrow">Why You&rsquo;ll Love It</p>
+            <h2 class="section-title" id="why-title">Designed to Connect,<br>Built to Impress</h2>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal reveal-delay-1">
+                <span class="feature-icon">&#129309;</span>
+                <div class="feature-text">Meet Like-Minded People</div>
+            </div>
+            <div class="feature-card reveal reveal-delay-2">
+                <span class="feature-icon">&#127969;</span>
+                <div class="feature-text">Premium Private Villa Experience</div>
+            </div>
+            <div class="feature-card reveal reveal-delay-3">
+                <span class="feature-icon">&#129331;</span>
+                <div class="feature-text">Make New Friends &amp; Memories</div>
+            </div>
+            <div class="feature-card reveal reveal-delay-1">
+                <span class="feature-icon">&#127882;</span>
+                <div class="feature-text">Music, Food, Games &amp; Entertainment &mdash; All in One</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="section" aria-labelledby="guidelines-title">
+        <div class="reveal" style="margin-bottom: 36px;">
+            <p class="section-eyebrow">Event Info</p>
+            <h2 class="section-title" id="guidelines-title">Good to Know<br>Before You Arrive</h2>
+        </div>
+
+        <div class="two-col">
+            <div class="info-box gold-top reveal reveal-delay-1">
+                <div class="info-box-title">&#128203; Event Guidelines</div>
+                <ul class="notes-list" role="list">
+                    <li>Government-issued ID is mandatory for entry</li>
+                    <li>Respect all guests and event staff</li>
+                    <li>Outside food and beverages are not permitted</li>
+                    <li>Any damage to villa property may result in penalties</li>
+                    <li>Guests must follow all safety instructions from organizers</li>
+                    <li>Event schedule may vary slightly depending on weather &amp; operational requirements</li>
+                </ul>
+            </div>
+
+            <div class="info-box rose-top reveal reveal-delay-2">
+                <div class="info-box-title">&#128179; Refund Policy</div>
+                <div class="refund-highlight">
+                    If the event is cancelled by <strong>JustMyHoliday</strong>, all participants will receive a
+                    <strong>100%
+                        refund</strong>.
+                </div>
+                <div class="refund-highlight">
+                    Cancel up to <strong>7 days before the event</strong> for a <strong>full refund</strong>.
+                    Cancellations within
+                    7 days may not be eligible for a refund unless otherwise stated.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="cta-section" aria-labelledby="cta-title">
+        <div class="cta-glow"></div>
+        <div class="cta-inner">
+            <div class="cta-badge reveal">&#9888; Limited Seats Available</div>
+            <h2 class="cta-title reveal reveal-delay-1" id="cta-title">Ready for an<br>Unforgettable Experience?</h2>
+            <p class="cta-sub reveal reveal-delay-2">Book your spot today and be part of an exclusive villa social where
+                music, food, fun, and friendships come together.</p>
+            <div class="reveal reveal-delay-3">
+                <button class="btn-primary" id="confetti-btn" onclick="fireConfetti(this)"
+                    aria-label="Book your spot now" style="font-size:1.05rem; padding: 18px 48px;">
+                    &#10022; Book My Spot Now
+                </button>
+            </div>
+            <div class="cta-warning reveal reveal-delay-3">
+                &#128293; Early booking is <strong>highly recommended</strong>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-brand">JustMyHoliday Villa Social</div>
+        <p class="footer-copy">&copy; 2026 JustMyHoliday. All rights reserved. Designed with &#10022; for unforgettable
+            experiences.</p>
+    </footer>
+
+    <script>
+        (function () {
+            'use strict';
+
+            /* PARTICLES */
+            var canvas = document.getElementById('particle-canvas');
+            var ctx = canvas.getContext('2d');
+            var W, H, particles = [];
+
+            function resize() {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            function Particle() { this.reset(true); }
+            Particle.prototype.reset = function (init) {
+                this.x = Math.random() * W;
+                this.y = init ? Math.random() * H : H + 8;
+                this.r = Math.random() * 1.5 + 0.4;
+                this.sp = Math.random() * 0.4 + 0.15;
+                this.op = Math.random() * 0.5 + 0.1;
+                var hues = [43, 20, 160, 340];
+                this.hue = hues[Math.floor(Math.random() * hues.length)];
+            };
+            Particle.prototype.tick = function () {
+                this.y -= this.sp;
+                if (this.y < -8) this.reset(false);
+            };
+
+            for (var i = 0; i < 80; i++) particles.push(new Particle());
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, W, H);
+                for (var j = 0; j < particles.length; j++) {
+                    var p = particles[j];
+                    p.tick();
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = 'hsla(' + p.hue + ', 80%, 65%, ' + p.op + ')';
+                    ctx.fill();
+                }
+                requestAnimationFrame(drawParticles);
+            }
+            drawParticles();
+
+            /* SCROLL PROGRESS */
+            var prog = document.getElementById('scroll-prog');
+            function updateProg() {
+                var max = document.body.scrollHeight - window.innerHeight;
+                var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+                prog.style.width = pct.toFixed(2) + '%';
+            }
+            window.addEventListener('scroll', updateProg, { passive: true });
+
+            /* NAV COMPACT */
+            var nav = document.getElementById('nav');
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 60) nav.classList.add('compact');
+                else nav.classList.remove('compact');
+            }, { passive: true });
+
+            /* COUNTDOWN — update the eventDate to your actual event date */
+            var eventDate = new Date(2026, 7, 15, 13, 0, 0); // Aug 15 2026 1PM
+
+            function pad(n) { return String(n).padStart(2, '0'); }
+            function updateCountdown() {
+                var now = new Date();
+                var diff = eventDate - now;
+                if (diff <= 0) {
+                    ['cd-days', 'cd-hours', 'cd-mins', 'cd-secs'].forEach(function (id) {
+                        document.getElementById(id).textContent = '00';
+                    });
+                    return;
+                }
+                document.getElementById('cd-days').textContent = pad(Math.floor(diff / 86400000));
+                document.getElementById('cd-hours').textContent = pad(Math.floor((diff % 86400000) / 3600000));
+                document.getElementById('cd-mins').textContent = pad(Math.floor((diff % 3600000) / 60000));
+                document.getElementById('cd-secs').textContent = pad(Math.floor((diff % 60000) / 1000));
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            /* SCROLL REVEAL */
+            var revealEls = document.querySelectorAll('.reveal');
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        observer.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            revealEls.forEach(function (el) { observer.observe(el); });
+
+            /* SCHEDULE ACCORDION */
+            var schedItems = document.querySelectorAll('.schedule-item');
+            schedItems.forEach(function (item) {
+                function toggle() {
+                    var isActive = item.classList.contains('active');
+                    schedItems.forEach(function (i) {
+                        i.classList.remove('active');
+                        i.setAttribute('aria-expanded', 'false');
+                    });
+                    if (!isActive) {
+                        item.classList.add('active');
+                        item.setAttribute('aria-expanded', 'true');
+                    }
+                }
+                item.addEventListener('click', toggle);
+                item.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+                });
+            });
+
+        })();
+
+        /* CONFETTI */
+        function fireConfetti(btn) {
+            var colors = ['#D4A843', '#F0C96A', '#E8637A', '#2ECFA8', '#ffffff', '#A07828'];
+            var rect = btn.getBoundingClientRect();
+            var ox = rect.left + rect.width / 2;
+            var oy = rect.top;
+            for (var i = 0; i < 120; i++) {
+                (function () {
+                    var el = document.createElement('div');
+                    el.classList.add('confetti-piece');
+                    el.style.left = (ox + (Math.random() - 0.5) * 200) + 'px';
+                    el.style.top = oy + 'px';
+                    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    el.style.width = (Math.random() * 8 + 4) + 'px';
+                    el.style.height = (Math.random() * 8 + 4) + 'px';
+                    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                    el.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                    el.style.animationDelay = (Math.random() * 0.4) + 's';
+                    document.body.appendChild(el);
+                    el.addEventListener('animationend', function () { el.remove(); });
+                })();
+            }
+        }
+    </script>
+</body>
+
+</html>
